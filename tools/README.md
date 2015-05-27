@@ -26,3 +26,10 @@ slow.
 This tool simply prints out a command to run:
 
     tar czf - <input_path> | ssh user@hostname "cd path; tar xvzf -"
+
+wcs.py
+======
+
+Word Count Stream -- count lines interactively. This is useful for counting lines of a large file.
+
+   cat large_file | python wcs.py
