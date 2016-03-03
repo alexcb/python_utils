@@ -1,0 +1,26 @@
+#!/usr/bin/env python
+import argparse
+import os
+
+def get_parser():
+    parser = argparse.ArgumentParser(description='Process some integers.')
+    parser.add_argument('path', type=str, help='path to guess to cd to')
+
+    return parser
+
+def get_args():
+    parser = get_parser()
+    return parser.parse_args()
+
+def guess_path(path, paths_to_search):
+    for path_to_search in paths_to_search:
+        for dir_name, dirnames, _ in os.walk(path_to_search):
+            dirnames[:] = [x for x in dirnames if not x.startswith('.')]
+            basename = os.path.basename(dir_name)
+            if basename == path:
+                return dir_name
+
+if __name__ == '__main__':
+    args = get_args()
+    path = guess_path(args.path, os.environ.get('QCD_PATH', os.path.expanduser('~')).split(':'))
+    print path
