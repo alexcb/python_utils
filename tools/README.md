@@ -33,3 +33,17 @@ wcs.py
 Word Count Stream -- count lines interactively. This is useful for counting lines of a large file.
 
    cat large_file | python wcs.py
+
+
+qcd
+===
+
+Quick CD -- quickly cd into a directory that matches a directory name which is recursively searched for.
+
+In your `.bashrc` include the following to make it work:
+
+   qcd() {
+       cd `~/bin/qcd $1`
+   }
+   alias qcd=qcd
+
