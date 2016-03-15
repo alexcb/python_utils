@@ -50,7 +50,7 @@ class MyQStringListModel(QStringListModel):
 
     def flags(self, index):
         if index.isValid():
-             return Qt.ItemIsDragEnabled | Qt.ItemIsSelectable | Qt.ItemIsEnabled
+             return Qt.ItemIsDragEnabled | Qt.ItemIsSelectable | Qt.ItemIsEnabled | Qt.ItemIsEditable
         return Qt.ItemIsSelectable | Qt.ItemIsEnabled | Qt.ItemIsDropEnabled
 
     def insertRows(self, *args):
@@ -82,6 +82,8 @@ class TaskManager(QWidget):
         self.tomorrow_model.itemAdded.connect(self.saveTasks)
         self.today_model.itemRemoved.connect(self.saveTasks)
         self.tomorrow_model.itemRemoved.connect(self.saveTasks)
+        self.today_model.dataChanged.connect(self.saveTasks)
+        self.tomorrow_model.dataChanged.connect(self.saveTasks)
 
         today_view = MyQListView()
         today_view.setModel(self.today_model)
