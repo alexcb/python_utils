@@ -1,0 +1,33 @@
+#!/usr/bin/python
+
+import subprocess
+import tempfile
+import yaml
+import os.path
+import time
+
+from dropbox.client import DropboxClient
+
+def get_config():
+    with open(os.path.expanduser('~/.simple-screenshot'), 'r') as stream:
+        config = yaml.load(stream)
+    return config
+
+config = get_config()
+dropbox_auth = config['oauthtoken']
+
+fname = tempfile.NamedTemporaryFile(suffix='.png')
+
+path = fname.name
+
+subprocess.call(['import', path])
+
+dropbox_client = DropboxClient(dropbox_auth)
+
+dropbox_path = 'screenshot_%s.png' % (time.strftime('%c'),)
+
+r = dropbox_client.put_file(dropbox_path, fname)
+actual_path = r['path']
+
+r = dropbox_client.media(actual_path)
+print 'Screenshot saved to: %s' % (r['url'],)

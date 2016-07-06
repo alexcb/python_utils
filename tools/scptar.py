@@ -18,7 +18,8 @@ def main():
 		host,
 		remote_path,
 		)
-	print 'If this looks right, run this:\n%s' % cmd
+	print 'Running: %s' % cmd
+        subprocess.call(cmd, shell=True)
 
 if __name__ == '__main__':
 	main()
