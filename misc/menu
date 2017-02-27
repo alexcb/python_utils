@@ -1,0 +1,29 @@
+from blessed import Terminal
+import sys
+
+def show_menu(items):
+    t = Terminal()
+
+    func = None
+    selected = 0
+    with t.fullscreen():
+        while True:
+            sys.stdout.write(t.clear() + t.move(0,0))
+            num_rows = t.height - 1
+            first_displayed_i = min(selected, len(items) - num_rows) 
+            for y in xrange(0, num_rows):
+                i = y + first_displayed_i
+                if i == selected:
+                    sys.stdout.write(t.reverse)
+                print "%d. %s" % (y + first_displayed_i, items[i][0])
+                sys.stdout.write(t.normal)
+            with t.cbreak():
+                x = t.inkey()
+                if repr(x) == 'KEY_UP':
+                    selected = max(selected - 1, 0)
+                elif repr(x) == 'KEY_DOWN':
+                    selected = min(selected + 1, len(items) - 1)
+                elif repr(x) == 'KEY_ENTER':
+                    func = items[selected][1]
+                    break
+    func()
