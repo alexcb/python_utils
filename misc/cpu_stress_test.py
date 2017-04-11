@@ -18,11 +18,14 @@ def fib(num):
         prev_a = a
         a = b
         b = prev_a +b
-        #print b                                                                                                          
     return a
 
 
 while 1:
    print 'start'
-   print make_pi(100000)
-   time.sleep(60)
+   start = time.time()
+   make_pi(50000)
+   duration = time.time() - start
+   print 'computing pi took %s seconds; sleeping for same amount now.' % duration
+   time.sleep(duration)
+
