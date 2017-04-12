@@ -1,3 +1,5 @@
+import os
+import random
 import time
 
 def write(filename,data,offset):
@@ -31,10 +33,13 @@ while 1:
         offset = random.randint(1,1024*1024*1024*5)
         write(path, ch * size, offset)
     print 'reading'
+    write_duration = time.time() - start
+    start = time.time()
     for _ in xrange(times):
         offset = random.randint(1,1024*1024*1024*5)
-        read(path, offset)
-    duration = time.time() - start
-    print 'IO task took %s seconds; sleeping for the same amount of time now' % duration
+        read(path, size, offset)
+    read_duration = time.time() - start
+    duration = read_duration + write_duration
+    print 'write took %s seconds; read took %s seconds; sleeping for %s seconds' % (write_duration, read_duration, duration)
     time.sleep(duration)
 
